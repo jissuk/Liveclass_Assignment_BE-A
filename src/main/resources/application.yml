@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: Assignment
+  datasource:
+    url: jdbc:mysql://localhost:3306/liveklass?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.timezone.default_storage: NORMALIZE_UTC
+      hibernate.jdbc.time_zone: UTC
+  data:
+    redis:
+      host: localhost
+      port: 6379
