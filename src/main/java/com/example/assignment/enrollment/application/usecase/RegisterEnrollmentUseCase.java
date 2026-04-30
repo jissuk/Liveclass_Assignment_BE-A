@@ -38,10 +38,12 @@ public class RegisterEnrollmentUseCase {
         int capacity = courseRepository.getCapacity(courseId);
 
         if (rank < capacity) {
-            return transactionTemplate.execute(status -> {
+            EnrollmentResponse response = transactionTemplate.execute(status -> {
                 courseRepository.decreaseCapacity(courseId);
                 return createEnrollment(command);
             });
+            enrollmentQueuePort.remove(courseId, userId);
+            return response;
         }
 
         long waitNumber = rank - capacity + 1;

@@ -36,6 +36,12 @@ public class RedisEnrollmentQueueAdapter implements EnrollmentQueuePort {
         return redisTemplate.opsForZSet().rank(queueKey, userId.toString());
     }
 
+    @Override
+    public void remove(Long courseId, Long userId) {
+        String queueKey = getQueueKey(courseId);
+        redisTemplate.opsForZSet().remove(queueKey, userId.toString());
+    }
+
     private String getQueueKey(Long courseId) {
         return EnrollmentRedisKeys.getQueueKey(courseId);
     }
