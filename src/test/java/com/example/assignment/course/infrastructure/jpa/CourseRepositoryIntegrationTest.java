@@ -53,8 +53,7 @@ public class CourseRepositoryIntegrationTest {
     @DisplayName("실패 케이스")
     class fail{
         @Test
-        @DisplayName("잔여 정원이 0인 경우 정원을 감소시킬 수 없다")
-        void decreaseCapacity_fail_when_zero_capacity() {
+        void 잔여_정원이_0인_경우_정원을_감소시킬_수_없다() {
             // given
             Course course = Course.create(
                     "course",
