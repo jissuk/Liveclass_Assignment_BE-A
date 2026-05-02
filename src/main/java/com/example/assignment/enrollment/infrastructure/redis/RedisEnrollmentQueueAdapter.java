@@ -6,14 +6,10 @@ import com.example.assignment.enrollment.redis.EnrollmentRedisKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.time.Duration;
-
 @RequiredArgsConstructor
 public class RedisEnrollmentQueueAdapter implements EnrollmentQueuePort {
 
     private final RedisTemplate<String, String> redisTemplate;
-
-    private static final long QUEUE_TTL_DAYS = 1L;
 
     @Override
     public void add(Long courseId, Long userId, long timestamp) {
@@ -23,10 +19,6 @@ public class RedisEnrollmentQueueAdapter implements EnrollmentQueuePort {
 
         if (Boolean.FALSE.equals(result)) {
             throw new AlreadyEnrollmentException();
-        }
-
-        if (redisTemplate.getExpire(queueKey) < 0) {
-            redisTemplate.expire(queueKey, Duration.ofDays(QUEUE_TTL_DAYS));
         }
     }
 
