@@ -19,6 +19,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("유저(User) 단위(DB) 테스트")
 public class UserRepositoryImplTest {
 
     @Mock

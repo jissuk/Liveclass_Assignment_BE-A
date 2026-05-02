@@ -1,4 +1,4 @@
-package com.example.assignment.course.infrastructure.jpa;
+package com.example.assignment.course.infrastructure.jpa.integration;
 
 import com.example.assignment.course.domain.model.Course;
 import com.example.assignment.course.domain.repository.CourseRepository;
@@ -17,6 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
+@DisplayName("강의(Course) 통합(DB) 테스트")
 public class CourseRepositoryIntegrationTest {
 
     @Autowired
@@ -30,12 +31,13 @@ public class CourseRepositoryIntegrationTest {
         void capacity가_정상적으로_감소한다() {
             // given
             Course course = Course.create(
-                    "name",
-                    "description",
-                    30_000,
+                    "course",
+                    "desc",
+                    1000,
                     10,
-                    LocalDateTime.now(),
-                    LocalDateTime.now().plusDays(1)
+                    LocalDateTime.now().plusDays(3),
+                    LocalDateTime.now().plusDays(7),
+                    LocalDateTime.now().plusDays(14)
             );
             Course save = courseRepository.save(course);
 
@@ -60,8 +62,9 @@ public class CourseRepositoryIntegrationTest {
                     "desc",
                     1000,
                     0,
-                    LocalDateTime.now(),
-                    LocalDateTime.now().plusDays(1)
+                    LocalDateTime.now().plusDays(3),
+                    LocalDateTime.now().plusDays(7),
+                    LocalDateTime.now().plusDays(14)
             );
             Course save = courseRepository.save(course);
 

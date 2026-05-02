@@ -9,10 +9,11 @@ public record CourseRequest(
         String description,
         Integer price,
         Integer capacity,
+        LocalDateTime enrollmentDeadline,
         LocalDateTime startDate,
         LocalDateTime endDate
 ) {
     public CourseCommand toCommand(){
-        return new CourseCommand(name, description, price, capacity, startDate, endDate);
+        return new CourseCommand(name, description, price, capacity, enrollmentDeadline, startDate, endDate);
     }
 }

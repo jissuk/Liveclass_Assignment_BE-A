@@ -11,6 +11,7 @@ public class CourseMapper {
                 command.description(),
                 command.price(),
                 command.capacity(),
+                command.enrollmentDeadline(),
                 command.startDate(),
                 command.endDate()
         );

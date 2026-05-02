@@ -7,6 +7,7 @@ public record CourseCommand(
         String description,
         Integer price,
         Integer capacity,
+        LocalDateTime enrollmentDeadline,
         LocalDateTime startDate,
         LocalDateTime endDate
 ){

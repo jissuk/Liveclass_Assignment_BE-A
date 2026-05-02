@@ -8,12 +8,13 @@ import java.time.LocalDateTime;
 public class CourseFixture {
     public static Course givenCourse(){
         return Course.create(
-                "name",
-                "description",
-                30_000,
-                10,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(1)
+                "course",
+                "desc",
+                1000,
+                0,
+                LocalDateTime.now().plusDays(3),
+                LocalDateTime.now().plusDays(7),
+                LocalDateTime.now().plusDays(14)
         );
     }
 }

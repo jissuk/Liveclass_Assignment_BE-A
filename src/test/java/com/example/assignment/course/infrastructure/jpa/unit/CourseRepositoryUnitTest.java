@@ -1,7 +1,8 @@
-package com.example.assignment.course.infrastructure;
+package com.example.assignment.course.infrastructure.jpa.unit;
 
 import com.example.assignment.course.domain.model.Course;
 import com.example.assignment.course.exception.CourseNotFoundException;
+import com.example.assignment.course.infrastructure.CourseRepositoryImpl;
 import com.example.assignment.course.infrastructure.jpa.JpaCourseRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,7 +20,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
-public class CourseRepositoryImplTest {
+@DisplayName("강의(Course) 단위(DB) 테스트")
+public class CourseRepositoryUnitTest {
 
     @Mock
     private JpaCourseRepository jpaCourseRepository;

@@ -1,7 +1,8 @@
-package com.example.assignment.enrollment.infrastructure;
+package com.example.assignment.enrollment.infrastructure.jpa.unit;
 
 import com.example.assignment.enrollment.domain.model.Enrollment;
 import com.example.assignment.enrollment.exception.EnrollmentNotFoundException;
+import com.example.assignment.enrollment.infrastructure.EnrollmentRepositoryImpl;
 import com.example.assignment.enrollment.infrastructure.jpa.JpaEnrollmentRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,7 +20,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
-public class EnrollmentRepositoryImplTest {
+@DisplayName("수강 신청(Enrollment) 단위(DB) 테스트")
+public class EnrollmentRepositoryUniTest {
 
     @Mock
     private JpaEnrollmentRepository jpaEnrollmentRepository;

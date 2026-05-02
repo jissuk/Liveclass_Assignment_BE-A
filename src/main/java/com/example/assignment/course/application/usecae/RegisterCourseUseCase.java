@@ -24,7 +24,7 @@ public class RegisterCourseUseCase {
         Course course = CourseMapper.toDomain(command);
         Course result = courseRepository.save(course);
 
-        Duration duration = Duration.between(LocalDateTime.now(), result.getEndDate());
+        Duration duration = Duration.between(LocalDateTime.now(), result.getEnrollmentDeadline());
         if (!duration.isNegative() && !duration.isZero()) {
             String queueKey = EnrollmentRedisKeys.getQueueKey(result.getId());
             redisTemplate.opsForValue().set(queueKey, "INIT", duration);

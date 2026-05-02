@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
+@DisplayName("수강신청(Enrollment) 통합(동시성) 테스트")
 public class RegisterEnrollmentIntegrationUseCaseTest {
 
     @Autowired
@@ -55,12 +56,13 @@ public class RegisterEnrollmentIntegrationUseCaseTest {
 
     void initTestDBData(){
         Course course = Course.create(
-                "name",
-                "description",
-                30_000,
+                "course",
+                "desc",
+                1000,
                 10,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(1)
+                LocalDateTime.now().plusDays(3),
+                LocalDateTime.now().plusDays(7),
+                LocalDateTime.now().plusDays(14)
         );
         courseRepository.save(course);
 
@@ -98,9 +100,12 @@ public class RegisterEnrollmentIntegrationUseCaseTest {
                     try {
                         startLatch.await();
 
-                        useCase.execute(command);
-                        successCount.incrementAndGet();
-
+                        EnrollmentResponse response = useCase.execute(new EnrollmentCommand(userId, courseId));
+                        if(response.isWaitlisted() == false){
+                            successCount.incrementAndGet();
+                        } else {
+                            failCount.incrementAndGet();
+                        }
                     } catch (Exception e) {
                         failCount.incrementAndGet();
                     } finally {
@@ -139,10 +144,12 @@ public class RegisterEnrollmentIntegrationUseCaseTest {
                     try {
                         startLatch.await();
 
-                        EnrollmentCommand command = new EnrollmentCommand(userId, courseId);
-
-                        useCase.execute(command);
-                        successCount.incrementAndGet();
+                        EnrollmentResponse response = useCase.execute(new EnrollmentCommand(userId, courseId));
+                        if(response.isWaitlisted() == false){
+                            successCount.incrementAndGet();
+                        } else {
+                            failCount.incrementAndGet();
+                        }
 
                     } catch (Exception e) {
                         failCount.incrementAndGet();

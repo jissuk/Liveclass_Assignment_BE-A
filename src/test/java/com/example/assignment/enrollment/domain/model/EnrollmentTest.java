@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-@DisplayName("수강 신청의 상태 전이 단위 테스트")
+@DisplayName("수강 신청(Enrollment) 상태 전이 단위 테스트")
 public class EnrollmentTest {
 
     @Nested

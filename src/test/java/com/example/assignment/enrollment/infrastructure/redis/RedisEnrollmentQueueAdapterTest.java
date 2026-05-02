@@ -17,6 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @SpringBootTest
 @Import(TestcontainersConfiguration.class)
+@DisplayName("수강 신청(Enrollment) 통합(Redis) 테스트")
 public class RedisEnrollmentQueueAdapterTest {
 
     @Autowired
