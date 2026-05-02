@@ -192,7 +192,7 @@ AND capacity > 0;
 
 ### ERD
 
-![ERD](https://github.com/user-attachments/assets/169dc77b-580b-4de0-99d9-9f06ff1e4671)
+![ERD](https://github.com/user-attachments/assets/5901b420-0a2e-4e7e-9c42-469fddcb315f)
 
 <br>
 
