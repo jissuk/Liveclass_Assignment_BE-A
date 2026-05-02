@@ -250,3 +250,40 @@ AND capacity > 0;
 - Testcontainers를 사용하여 MySQL, Redis 컨테이너가 자동으로 생성 및 실행됩니다.
 - 별도로 docker-compose를 실행할 필요는 없습니다.
 - **단, Docker 엔진은 반드시 실행 중이어야 합니다.**
+
+
+## 테스트 케이스
+### 1. 강의 관련 (Course)
+
+| 구분 | 테스트 대상 | 테스트 조건 | 입력 값 | 기대 결과 | 테스트 유형 |
+|:---:|---|---|---|---|:---:|
+| **성공** | 강의 상태 전이 (Open) | 상태가 `DRAFT`인 강의 | `course.open()` 호출 | 상태가 `OPEN`으로 변경됨 | 단위 테스트 |
+| **성공** | 강의 상태 전이 (Close) | 상태가 `OPEN`인 강의 | `course.close()` 호출 | 상태가 `CLOSED`으로 변경됨 | 단위 테스트 |
+| **성공** | 수강 정원 감소 | 정원이 남아있는 강의 존재 | `decreaseCapacity(id)` 호출 | 1. DB 영향 행 수: 1 <br/> 2. 잔여 정원 1 감소 확인 | 통합 (DB) |
+| **성공** | 강의 상세 조회 | 존재하는 강의 ID | `findById(courseId)` | 해당 ID를 가진 `Course` 객체 반환 | 단위 (Mock) |
+| **실패** | 유효하지 않은 상태 변경 | 상태가 `DRAFT`인 강의 | `course.close()` 호출 | `InvalidCourseStateException` 발생 | 단위 테스트 |
+| **실패** | 중복 상태 변경 | 이미 `OPEN`인 강의 | `course.open()` 호출 | `InvalidCourseStateException` 발생 | 단위 테스트 |
+| **실패** | 정원 초과 상황 | 잔여 정원이 0인 강의 | `decreaseCapacity(id)` 호출 | `InsufficientCapacityException` 발생 | 통합 (DB) |
+| **실패** | 존재하지 않는 강의 조회 | DB에 없는 강의 ID | `findById(invalidId)` | `CourseNotFoundException` 발생 | 단위 (Mock) |
+
+---
+
+## 2. 수강 신청 관련 (Enrollment)
+| 구분 | 테스트 대상 | 테스트 조건 | 입력 값 | 기대 결과 | 테스트 유형 |
+|:---:|---|---|---|---|:---:|
+| **성공** | 동시성 제어 (1인 1신청) | 동일 사용자가 10번 동시 신청 | 유저 ID=1, 강의 ID=1 | 1. 성공: 1건 <br/>2. 실패: 9건 (중복 방지) | 통합 (동시성) |
+| **성공** | 대량 동시 신청 처리 | 다수 사용자의 동시 신청 | 유저 ID=1~10, 강의 ID=1 | 1. 성공: 10건 <br/>2. 대기열 순번 정상 할당 | 통합 (동시성) |
+| **성공** | 수강 신청 상태 전이 | `PENDING` 상태의 신청 건 | `confirm()` / `cancel()` | 상태가 `CONFIRMED` / `CANCELLED` 변경 | 단위 테스트 |
+| **성공** | Redis 대기열 등록 | 처음 신청하는 사용자 | `add(courseId, userId)` | 대기열 등록 및 순위(Rank) 0번 확인 | 통합 (Redis) |
+| **실패** | 선착순 정원 초과 | 정원 10명 강의에 11명 신청 | 유저 ID=1~11, 강의 ID=1 | 1. 10명 성공 <br/>2. 1명 대기(Waitlisted) 확인 | 통합 (비즈니스) |
+| **실패** | 취소 가능 기간 만료 | 확정 후 7일이 지난 신청 | `cancel()` 호출 | `CancellationPeriodExpiredException` 발생 | 단위 테스트 |
+| **실패** | 중복 대기열 등록 방지 | 이미 대기열에 있는 유저 | 동일 유저로 `add()` 호출 | `AlreadyEnrollmentException` 발생 | 통합 (Redis) |
+| **실패** | 잘못된 상태 변경 시도 | 이미 `CANCELLED`된 신청 | `confirm()` 호출 | `InvalidEnrollmentStateException` 발생 | 단위 테스트 |
+
+---
+
+## 3. 사용자 관련 (User Domain)
+| 구분 | 테스트 대상 | 테스트 조건 | 입력 값 | 기대 결과 | 테스트 유형 |
+|:---:|---|---|---|---|:---:|
+| **성공** | 사용자 상세 조회 | 존재하는 유저 ID | `findById(userId)` | 해당 ID를 가진 `User` 객체 반환 | 단위 (Mock) |
+| **실패** | 존재하지 않는 사용자 조회 | DB에 없는 유저 ID | `findById(invalidId)` | `UserNotFoundException` 발생 | 단위 (Mock) |
