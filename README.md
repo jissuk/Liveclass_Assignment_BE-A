@@ -222,6 +222,7 @@ AND capacity > 0;
 | description    | String      | 강의 상세 설명               |
 | price          | Integer     | 수강료                       |
 | capacity       | Integer     | 잔여 수강 가능 인원           |
+| enrollmentDeadline      | LocalDate   | 수강 신청 마감일                  |
 | startDate      | LocalDate   | 강의 시작일                  |
 | endDate        | LocalDate   | 강의 종료일                  |
 | status         | Enum        | 강의 상태 (DRAFT, OPEN, CLOSED) |
