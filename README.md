@@ -274,7 +274,9 @@ AND capacity > 0;
 |:---:|---|---|---|---|:---:|
 | **성공** | 동시성 제어 (1인 1신청) | 동일 사용자가 10번 동시 신청 | 유저 ID=1, 강의 ID=1 | 1. 성공: 1건 <br/>2. 실패: 9건 (중복 방지) | 통합 (동시성) |
 | **성공** | 대량 동시 신청 처리 | 다수 사용자의 동시 신청 | 유저 ID=1~10, 강의 ID=1 | 1. 성공: 10건 <br/>2. 대기열 순번 정상 할당 | 통합 (동시성) |
-| **성공** | 수강 신청 상태 전이 | `PENDING` 상태의 신청 건 | `confirm()` / `cancel()` | 상태가 `CONFIRMED` / `CANCELLED` 변경 | 단위 테스트 |
+| **성공** | 수강 신청 상태 전이 | `PENDING` 상태의 신청 건 | `confirm()` | 상태가 `CONFIRMED`로 변경 | 단위 테스트 |
+| **성공** | 수강 취소 상태 전이 및 정원 복구 (도메인) | `CONFIRMED` 상태의 신청 건 | `cancel()` | 1. 상태가 `CANCELLED`로 변경 <br/>2. Course 정원(capacity) 1 증가 | 단위 테스트 |
+| **성공** | 수강 취소 UseCase 처리 (DB 반영) | 확정된 신청 건이 존재 | `cancelEnrollmentUseCase.execute(enrollmentId)` | 1. DB에 상태가 `CANCELLED`로 변경 <br/>2. Course 정원(capacity) 1 증가 반영 | 통합 (DB) |
 | **성공** | Redis 대기열 등록 | 처음 신청하는 사용자 | `add(courseId, userId)` | 대기열 등록 및 순위(Rank) 0번 확인 | 통합 (Redis) |
 | **실패** | 선착순 정원 초과 | 정원 10명 강의에 11명 신청 | 유저 ID=1~11, 강의 ID=1 | 1. 10명 성공 <br/>2. 1명 대기(Waitlisted) 확인 | 통합 (비즈니스) |
 | **실패** | 취소 가능 기간 만료 | 확정 후 7일이 지난 신청 | `cancel()` 호출 | `CancellationPeriodExpiredException` 발생 | 단위 테스트 |
