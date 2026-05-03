@@ -26,7 +26,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @DisplayName("수강신청(Enrollment) 통합(동시성) 테스트")
-public class RegisterEnrollmentIntegrationUseCaseTest {
+public class RegisterEnrollmentUseCaseIntegrationTest {
 
     @Autowired
     private RegisterEnrollmentUseCase useCase;

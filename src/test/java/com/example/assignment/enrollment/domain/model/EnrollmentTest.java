@@ -47,10 +47,10 @@ public class EnrollmentTest {
         }
 
         @Test
-        @DisplayName("CONFIRMED(확정) 상태에서 취소하면 CANCELLED로 변경된다")
-        void 확정상태에서_취소하면_CANCELLED로_변경된다() {
+        @DisplayName("CONFIRMED(확정) 상태에서 취소하면 CANCELLED로 변경되고 정원이 1 증가한다")
+        void 확정상태에서_취소하면_CANCELLED로_변경되고_정원이1증가된다() {
             // given
-            Enrollment enrollment = EnrollmentFixture.givenEnrollment();
+            Enrollment enrollment = EnrollmentFixture.givenEnrollment(); // capacity : 0
             LocalDateTime now = LocalDateTime.now();
             enrollment.confirm(now);
 
@@ -59,6 +59,7 @@ public class EnrollmentTest {
 
             // then
             assertThat(enrollment.getStatus()).isEqualTo(EnrollmentStatus.CANCELLED);
+            assertThat(enrollment.getCourse().getCapacity()).isEqualTo(1);
         }
     }
 

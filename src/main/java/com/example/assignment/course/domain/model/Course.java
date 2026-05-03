@@ -51,6 +51,10 @@ public class Course {
         this.status = this.status.close();
     }
 
+    public void increaseCapacity(int amount) {
+        this.capacity += amount;
+    }
+
     protected Course(String name, String description, Integer price, Integer capacity, LocalDateTime enrollmentDeadline, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.description = description;

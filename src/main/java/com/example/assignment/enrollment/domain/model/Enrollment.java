@@ -59,6 +59,7 @@ public class Enrollment {
             }
         }
         this.status = EnrollmentStatus.CANCELLED;
+        this.course.increaseCapacity(1);
     }
 
     private boolean isCancellationPeriodExpired(LocalDateTime now) {

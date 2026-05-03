@@ -7,6 +7,7 @@ import com.example.assignment.enrollment.domain.repository.EnrollmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 @UseCase
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ public class GetMyEnrollmentUseCase {
 
     private final EnrollmentRepository enrollmentRepository;
 
+    @Transactional(readOnly = true)
     public PageResponse<EnrollmentResponse> execute(Long userId, Pageable pageable) {
 
         Page<EnrollmentResponse> page = enrollmentRepository.findByUserId(userId, pageable)

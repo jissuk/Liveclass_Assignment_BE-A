@@ -6,7 +6,7 @@ import com.example.assignment.course.domain.model.CourseStatus;
 import com.example.assignment.course.domain.repository.CourseRepository;
 import com.example.assignment.course.presentation.dto.CourseResponse;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ public class GetCourseListUseCase {
 
     private final CourseRepository courseRepository;
 
+    @Transactional(readOnly = true)
     public List<CourseResponse> execute(List<CourseStatus> statuses) {
         List<Course> courses;
 
